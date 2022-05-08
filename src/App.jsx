@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import styled from '@emotion/styled'
 import axios from 'axios'
 
+axios.defaults.baseURL = "https://backend-express-real.herokuapp.com/"
 
 const PageContainer = styled.div`
   background-color:aliceblue;
@@ -63,7 +64,7 @@ function App() {
   const [token,setToken] = useState();
 
   const fetchTransactions = async () =>{
-    const response = await axios.get("http://localhost:4000/api/transactions",
+    const response = await axios.get("/api/transactions",
     getTokenHeader(token)
     );
     console.log("response >>",response);
@@ -84,7 +85,7 @@ function App() {
   },[token])
 
   const onDeleteItem = async (_id) => {
-    const deleted = await axios.delete("http://localhost:4000/api/deleteTransactionn/"+ _id
+    const deleted = await axios.delete("/api/deleteTransactionn/"+ _id
     ,getTokenHeader(token));
     console.log(deleted);
     setTransctions(transactions.filter(tx => tx._id !== _id))
@@ -127,7 +128,7 @@ function App() {
          setPassword(e.target.value)
        }} />  
        <Button onClick={ async ()=>{
-         const login = await axios.post("http://localhost:4000/user/login",{
+         const login = await axios.post("/user/login",{
            username,
            password
          })
@@ -166,7 +167,7 @@ function App() {
             amount
         }
         const created = await axios.post(
-          "http://localhost:4000/api/transaction",
+          "/api/transaction",
           newTx,
           getTokenHeader(token));
           message.success("Create transaction success")
